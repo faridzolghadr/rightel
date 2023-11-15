@@ -1,0 +1,42 @@
+<div class="row mt-3">
+  <div class="col-12" [hidden]="passwordToggle || entryToggle!=='no'">
+    <button class="btn btn-primary btn-sm mb-2" (click)="onAddActivate()">ایجاد</button>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th *ngFor="let col of cols" [class]="col.cssClass">{{col.title}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="dataSource.length;else empty">
+          <tr *ngFor="let user of dataSource; trackBy:identify;let index=index">
+            <td>{{index+1}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.email}}</td>
+            <td><input type="checkbox" [(ngModel)]="user.active" (change)="onActivateHandle(user)"></td>
+            <td>
+              <button class="btn btn-warning btn-sm ml-1" (click)="onEditHandle(user)">ویرایش</button>
+              <button class="btn btn-secondary btn-sm" (click)="onPasswordHandle(user)">تغییر رمز</button>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #empty>
+          <tr>
+            <td [attr.colSpan]="cols.length" class="text-center">
+              داده ای برای نمایش وجود ندارد!
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="passwordToggle">
+    <app-entry-password [dataReceive]="passwordEntrySection"
+      (closeEntry)="onUpdateDataSource($event,'password')"></app-entry-password>
+  </div>
+  <div *ngIf="entryToggle !== 'no'">
+    <app-entry-user [dataReceive]="entrySection" [type]="entryToggle"
+      (closeEntry)="onUpdateDataSource($event,'entry')"></app-entry-user>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<form [formGroup]="entryForm" (ngSubmit)="onSaveChange()">
+  <div class="input-form">
+    <label for="firstName">نام: </label>
+    <input type="text" formControlName="firstName" id="firstName">
+    <p class="error" *ngIf="entryForm.get('firstName')?.hasError('required')">نام الزامی است</p>
+  </div>
+  <div class="input-form">
+    <label for="lastName">نام خانوادگی: </label>
+    <input type="text" formControlName="lastName" id="lastName">
+    <p class="error" *ngIf="entryForm.get('lastName')?.hasError('required')">نام خانوادگی الزامی است</p>
+  </div>
+  <div class="input-form">
+    <label for="email">ایمیل: </label>
+    <input type="email" formControlName="email" id="email">
+    <p class="error" *ngIf="entryForm.get('email')?.hasError('required')">ایمیل الزامی است</p>
+    <p class="error" *ngIf="entryForm.get('email')?.hasError('pattern')">ایمیل نادرست است</p>
+  </div>
+  <div class="input-form" *ngIf="type==='add'">
+    <label for="password">رمز عبور: </label>
+    <input type="password" formControlName="password" id="password">
+    <p class="error" *ngIf="entryForm.get('password')?.hasError('required')">رمز عبور الزامی است</p>
+    <p class="error" *ngIf="entryForm.get('password')?.hasError('pattern')">رمز عبور باید 8 کارکتر از عدد و حروف باشد
+    </p>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-secondary btn-sm" [disabled]="!entryForm.valid">
+      {{type ==='edit'?'ویرایش':'ایجاد'}} کاربر
+    </button>
+  </div>
+</form>
